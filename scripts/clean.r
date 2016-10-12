@@ -31,6 +31,8 @@ il_mp2.dt <- separate(il_mp2.dt, f.g.e, c("sys_g", "spin_en"), sep = "w") %>%
     spread(sys_g, en) %>%
     data.table()
 
+il_mp2.dt[, Suite := as.factor("IL")]
+
 # so that no numbers in future column names
 s88_mp2.dt[ , spin_en := as.factor(spin_en)]
 il_mp2.dt[ , spin_en := as.factor(spin_en)]
@@ -42,7 +44,7 @@ levels(s88_mp2.dt$spin_en) <- c("two", "OS", "SS", "SCF")  # original 2, 2S, 2T,
 s88_mp2.dt$basis <- factor(s88_mp2.dt$basis, levels = basisList)
 il_mp2.dt$basis <- factor(il_mp2.dt$basis, levels = basisList)
 setkey(s88_mp2.dt, basis, System, Suite, spin_en)
-setkey(il_mp2.dt, basis, System, chain, cation, anion, conf, spin_en)
+setkey(il_mp2.dt, basis, System, Suite, chain, cation, anion, conf, spin_en)
 
 # and others
 setkey(all_both.dt, System, Suite)
@@ -55,6 +57,21 @@ s88_mp2.dt[, CP := complex_r - frag1_g - frag2_g]
 il_mp2.dt[, nonCP := complex_r - frag1_r - frag2_r]
 il_mp2.dt[, CP := complex_r - frag1_g - frag2_g]
 
+### ============== MERGING MP2 ENERGIES, S88 & IL174 ================== ###
+to_merge.mp2 <- c("basis", "System", "Suite", "spin_en", "nonCP", "CP")
+il_mp2.dt[, to_merge.mp2, with = FALSE ]
+s88_mp2.dt[spin_en == "OS" | spin_en == "SS", to_merge.mp2, with = FALSE]
+
+# bind, longify nonCP and CP, then spread to OS and SS
+# gather(name-of-new-key, name-of-new-value, range-of-columns)
+# spread(factor-column-to-spread, actual-values-to-spread)
+# factor column becomes column names, with corresponding values under
+all_mp2.dt <- rbind(s88_mp2.dt[spin_en == "OS" | spin_en == "SS", to_merge.mp2, with = FALSE]
+                    , il_mp2.dt[, to_merge.mp2, with = FALSE ]) %>%
+    gather(comp, en, nonCP:CP) %>%
+    spread(spin_en, en)
+
+
 ### ==================== SAVE STUFF ====================== ###
-save(list = c("basisList", "all_both.dt", "s88_mp2.dt", "il_mp2.dt")
+save(list = c("basisList", "all_both.dt", "s88_mp2.dt", "il_mp2.dt", "all_mp2.dt")
      , file = "~/GoogleDrive/Zoe-Sam/soot/data/cleaned.data")

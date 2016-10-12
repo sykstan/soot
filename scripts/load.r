@@ -147,6 +147,13 @@ il_mp2.dt <- data.table(il_mp2.dt)
 s88_mp2.dt[ , basis := as.factor(basis)]
 il_mp2.dt[ , basis := as.factor(basis)]
 
+# omit CT complexes
+s88_mp2.dt <- s88_mp2.dt[Suite != "CT"]
+# apply factor again to drop CT from factor levels
+s88_mp2.dt[, Suite := factor(Suite)]
+s88_mp2.dt[, System := factor(System)]
+
+
 # create system/name column for IL174 (facilitate merging with S88)
 il_ccsdt.dt[, System := as.factor(paste(chain, cation, anion, conf, sep = "-"))]
 il_sapt.dt[, System := as.factor(paste(chain, cation, anion, conf, sep = "-"))]
