@@ -1,0 +1,21 @@
+{
+    "collab_server" : "",
+    "contents" : "# this file is run everytime the project is loaded\n\n# for the SOOT project\n\n# Samuel Tan's settings\nif (Sys.info()[[\"user\"]] == \"tans\") {\n    # change library path; this adds this to the front of the lib path\n    .libPaths( \"~/opt/R/lib\" )\n    \n    print(\"this is Sam's Rprofile\")\n    \n    # set default CRAN mirror\n    # options(repos-structure(c(CRAN=\"http://cran.ms.unimelb.edu.au/\")))\n}\n\n",
+    "created" : 1475898893550.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "1709550297",
+    "id" : "B64A5885",
+    "lastKnownWriteTime" : 1475899005,
+    "last_content_update" : 1475899005894,
+    "path" : "~/GoogleDrive/Zoe-Sam/soot/scripts/.Rprofile.R",
+    "project_path" : ".Rprofile.R",
+    "properties" : {
+        "tempName" : "Untitled1"
+    },
+    "relative_order" : 2,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}

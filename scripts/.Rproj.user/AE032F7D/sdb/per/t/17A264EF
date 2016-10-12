@@ -1,0 +1,20 @@
+{
+    "collab_server" : "",
+    "contents" : "\n# not sure to puth this in .Rprofile, the Rprofile.site or .Renviron or Renviron.site files\n# the *.site files are typically located in the /Library/Frameworks/R.framework/Resources/etc\n\n# change library path; this adds this to the front of the lib path\n.libPaths( \"~/opt/R/lib\" )\n\nprint(\"this is the Rprofile\")\n\n# set default CRAN mirror\n# options(repos-structure(c(CRAN=\"http://cran.ms.unimelb.edu.au/\")))\n",
+    "created" : 1475898848629.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "1398433824",
+    "id" : "17A264EF",
+    "lastKnownWriteTime" : 1455105096,
+    "last_content_update" : 1455105096,
+    "path" : "~/GoogleDrive/scs-it/.Rprofile",
+    "project_path" : null,
+    "properties" : {
+    },
+    "relative_order" : 1,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}
