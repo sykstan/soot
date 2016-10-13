@@ -3,5 +3,4 @@
 **/*.RData
 **/*.Ruserdata
 **/.DS_Store
-**/Icon^MIcon
-.Rproj.user
+**/Icon\r\r

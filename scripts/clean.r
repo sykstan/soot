@@ -72,6 +72,7 @@ all_mp2.dt <- rbind(s88_mp2.dt[spin_en == "OS" | spin_en == "SS", to_merge.mp2, 
     spread(spin_en, en)
 # should be 3348 = 279 * 6 * 2 rows (279 = 191 + 88)
 
+
 ### ==================== SAVE STUFF ====================== ###
 save(list = c("basisList", "all_both.dt", "s88_mp2.dt", "il_mp2.dt", "all_mp2.dt")
      , file = "~/GoogleDrive/Zoe-Sam/soot/data/cleaned.data")
