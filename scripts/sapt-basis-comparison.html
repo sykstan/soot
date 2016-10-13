@@ -119,18 +119,7 @@ $(document).ready(function () {
 </div>
 
 
-<!-- ## R Markdown -->
-<!-- This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>. -->
-<!-- When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this: -->
-<!-- ```{r cars} -->
-<!-- summary(cars) -->
-<!-- ``` -->
-<!-- ## Including Plots -->
-<!-- You can also embed plots, for example: -->
-<!-- ```{r pressure, echo=FALSE} -->
-<!-- plot(pressure) -->
-<!-- ``` -->
-<!-- Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot. -->
+<p>All units in <span class="math inline">\(\text{kJ mol}^{-1}\)</span>.</p>
 <div id="datasets" class="section level2">
 <h2>Datasets</h2>
 <p>Before we try and get into the analysis, let’s just be clear about what data we have. The three main datasets are S22, S66, and ILs. I hesitate to say IL174 because we actually have 191 systems, of which only 174 have CCSD(T)/CBS results, and 182 have SAPT2+3/aug-cc-pVDZ results, and the cc-pVDZ are currently running at the time of writing (59 successful, 106 running, and 26 in queue). So you get an idea of how complicated things can be. This is as much for my sake as for the reader’s.</p>
@@ -203,6 +192,7 @@ $(document).ready(function () {
 ## 1:   S22 2.703880 -0.3371762 3.828277 -8.632357 6.723696
 ## 2:   S66 2.384773  1.0244872 2.990777 -6.762034 6.692659
 ## 3:    IL 2.862872  1.6302926 3.165817 -7.028825 5.634410</code></pre>
+<p>Hmm…everyone seems equally bad here, but still below 10 <span class="math inline">\(\text{kJ mol}^{-1}\)</span>.</p>
 </div>
 </div>
 

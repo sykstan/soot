@@ -33,6 +33,17 @@ s66$set      <- "S66"
 il174$set    <- "il174"
 il174_sapt$cation    <- paste("c",il174_sapt$r,"m", il174_sapt$cationtype, sep = "")
 
+s22_sapt_vdz$set      <- as.factor("S22")
+s22_sapt_vdz$bs       <- as.factor("VDZ")
+s22_sapt_avdz$set     <- as.factor("S22")
+s22_sapt_avdz$bs      <- as.factor("aVDZ")
+s66_sapt_vdz$set      <- as.factor("S66")
+s66_sapt_vdz$bs       <- as.factor("VDZ")
+s66_sapt_avdz$set     <- as.factor("S66")
+s66_sapt_avdz$bs      <- as.factor("aVDZ")
+
+sets <- rbind(s22_sapt_vdz["sys", "set","bs" ,"elst10","exch10","ind20","exchind20","hf2","hf3","tothf"], s22_sapt_avdz, s66_sapt_vdz, s66_sapt_avdz)
+
 # COMBINE DATAFRAMES VERTICALLY
 sets <- rbind(s22, s66)
 

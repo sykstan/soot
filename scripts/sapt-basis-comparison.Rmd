@@ -2,6 +2,9 @@
 title: "Soot Exploratory Analysis"
 output: html_document
 #output: md_document
+params:
+    # kJ/mol variable, accessed via params$unit in R chunks
+    unit: $\text{kJ mol}^{-1}$
 ---
 
 ```{r setup, include=FALSE}
@@ -13,27 +16,11 @@ require(data.table)
 require(magrittr)
 require(ggplot2)
 require(tidyr)
+
 ```
 
-<!-- ## R Markdown -->
+All units in `r params$unit`.
 
-<!-- This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>. -->
-
-<!-- When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this: -->
-
-<!-- ```{r cars} -->
-<!-- summary(cars) -->
-<!-- ``` -->
-
-<!-- ## Including Plots -->
-
-<!-- You can also embed plots, for example: -->
-
-<!-- ```{r pressure, echo=FALSE} -->
-<!-- plot(pressure) -->
-<!-- ``` -->
-
-<!-- Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot. -->
 
 ## Datasets 
 Before we try and get into the analysis, let's just be clear about what data we have. The three main datasets are S22, S66, and ILs. I hesitate to say IL174 because we actually have 191 systems, of which only 174 have CCSD(T)/CBS results, and 182 have SAPT2+3/aug-cc-pVDZ results, and the cc-pVDZ are currently running at the time of writing (59 successful, 106 running, and 26 in queue). So you get an idea of how complicated things can be. This is as much for my sake as for the reader's. 
@@ -80,4 +67,5 @@ As you can see, there are some large deviations for Dispersion and Electrostatic
 ```{r}
 all_both.dt[, as.list(basic.stats(SAPT2 - SAPT.HF - corrEn)), by = .(Suite)]
 ```
+Hmm...everyone seems equally bad here, but still below 10 `r params$unit`.
 
