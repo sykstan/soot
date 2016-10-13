@@ -34,6 +34,34 @@ s66_sapt.dt <- read.table(file = "~/GoogleDrive/Zoe-Sam/soot/data/S66_aDZ_sapt2.
                           , header = TRUE, sep = "|", strip.white = TRUE) %>%
     data.table()
 
+# s22_dz_sapt.dt <- read.table(file = "~/GoogleDrive/Zoe-Sam/soot/data/S22_DZ_sapt23.edat"
+#                           , header = TRUE, sep = "|", strip.white = TRUE) %>%
+#     data.table()
+# 
+# s66_dz_sapt.dt <- read.table(file = "~/GoogleDrive/Zoe-Sam/soot/data/S66_DZ_sapt23.edat"
+#                           , header = TRUE, sep = "|", strip.white = TRUE) %>%
+#     data.table()
+
+# >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> #
+# ----------------- all of the components!! ------------------------- #
+s22_dz_allsapt.dt <- read.table(file = "~/GoogleDrive/Zoe-Sam/soot/data/S22_DZ_sapt23_allEn.edat"
+                          , header = TRUE, sep = "|", strip.white = TRUE) %>%
+    data.table()
+
+s66_dz_allsapt.dt <- read.table(file = "~/GoogleDrive/Zoe-Sam/soot/data/S66_DZ_sapt23_allEn.edat"
+                          , header = TRUE, sep = "|", strip.white = TRUE) %>%
+    data.table()
+
+s22_adz_allsapt.dt <- read.table(file = "~/GoogleDrive/Zoe-Sam/soot/data/S22_aDZ_sapt23_allEn.edat"
+                                , header = TRUE, sep = "|", strip.white = TRUE) %>%
+    data.table()
+
+s66_adz_allsapt.dt <- read.table(file = "~/GoogleDrive/Zoe-Sam/soot/data/S66_aDZ_sapt23_allEn.edat"
+                                , header = TRUE, sep = "|", strip.white = TRUE) %>%
+    data.table()
+# <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< #
+
+
 # for ILs
 # formerly adapted from the spreadsheet jason_mp2_il1IP.xlsx, sheet CCSDT_cp
 # now with ALL of Jason's energies (should be 174, no more corrEn > 0)
@@ -42,9 +70,9 @@ il_ccsdt.dt <- read.csv(file = "~/GoogleDrive/Zoe-Sam/soot/data/jason-CBS.csv"
     data.table()
 
 
-testccsd <- read.table("~/GoogleDrive/Zoe-Sam/soot/data/il_ccsdDT.edat", sep = "|", 
-                     header = TRUE, strip.white = TRUE) %>%
-    data.table()
+# testccsd <- read.table("~/GoogleDrive/Zoe-Sam/soot/data/il_ccsdDT.edat", sep = "|", 
+#                      header = TRUE, strip.white = TRUE) %>%
+#     data.table()
 
 # extracted 07 Oct 2016 from Raijin
 il_sapt.dt <- read.table("~/GoogleDrive/Zoe-Sam/soot/data/il_aDZ_sapt2.edat"
@@ -102,13 +130,29 @@ s88_ccsdt.dt[, corrEn := benchmark - HF_aVQZ]
 
 # SAPT columns
 s22_sapt.dt[, Size := NULL]
+s22_dz_allsapt.dt[, Size := NULL]
+s22_adz_allsapt.dt[, Size := NULL]
 s66_sapt.dt[, Size := NULL]
+s66_dz_allsapt.dt[, Size := NULL]
+s66_adz_allsapt.dt[, Size := NULL]
 il_sapt.dt[, Size := NULL]
 
+# Suite
 s22_sapt.dt[, Suite := as.factor("S22")]
+s22_dz_allsapt.dt[, Suite := as.factor("S22")]
+s22_adz_allsapt.dt[, Suite := as.factor("S22")]
 s66_sapt.dt[, Suite := as.factor("S66")]
+s66_dz_allsapt.dt[, Suite := as.factor("S66")]
+s66_adz_allsapt.dt[, Suite := as.factor("S66")]
+
+# basis sets
+s22_dz_allsapt.dt[, basis := as.factor("VDZ")]
+s22_adz_allsapt.dt[, basis := as.factor("aVDZ")]
+s66_dz_allsapt.dt[, basis := as.factor("VDZ")]
+s66_adz_allsapt.dt[, basis := as.factor("aVDZ")]
 
 s88_sapt.dt <- rbind(s22_sapt.dt, s66_sapt.dt)
+s88_allsapt.dt <- rbind(s22_dz_allsapt.dt, s22_adz_allsapt.dt, s66_dz_allsapt.dt, s66_adz_allsapt.dt)
 
 setnames(s88_sapt.dt, c("System" , "Electrostatics", "Exchange", "Induction", "Dispersion"
                         , "SAPT.Charge.Transfer", "Total.HF", "Total.SAPT2", "Total.SAPT2.3")
@@ -124,6 +168,7 @@ setnames(il_sapt.dt, c("Chain", "Cation", "Anion", "Conf"
 # set keys for merging
 setkey(s88_ccsdt.dt, System, Suite)
 setkey(s88_sapt.dt, System, Suite)
+setkey(s88_allsapt.dt, System, Suite, basis)
 
 # merge new SAPT2 energies with ccsdt, S88
 s88_both.dt <- merge(s88_ccsdt.dt, s88_sapt.dt, all = TRUE)
@@ -172,6 +217,6 @@ all_both.dt[is.na(Suite), Suite := "IL"]
 
 
 # save for faster future loading
-save(list = c("basisList", "s88_ccsdt.dt", "il_ccsdt.dt", "s22_sapt.dt", "s66_sapt.dt", "il_sapt.dt"
+save(list = c("basisList", "s88_ccsdt.dt", "il_ccsdt.dt", "s22_sapt.dt", "s66_sapt.dt", "il_sapt.dt", "s88_allsapt.dt"
               , "s88_both.dt", "il_both.dt", "all_both.dt", "s88_mp2.dt", "il_mp2.dt")
      , file = "~/GoogleDrive/Zoe-Sam/soot/data/imported.data")
