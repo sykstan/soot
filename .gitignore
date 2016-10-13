@@ -1,6 +1,7 @@
+**/.Rproj.user/**
+**/.Rhistory
+**/*.RData
+**/*.Ruserdata
+**/.DS_Store
+**/Icon^MIcon
 .Rproj.user
-.Rhistory
-.RData
-.Ruserdata
-.DS_Store
-Icon^M
