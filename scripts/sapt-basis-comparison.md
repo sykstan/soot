@@ -10,6 +10,8 @@
 <!-- plot(pressure) -->
 <!-- ``` -->
 <!-- Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot. -->
+### Comparison of SAPT2+3 components between basis sets
+
 Here is the comparison between cc-pVDZ and aug-cc-pVDZ for SAPT2+3
 components:
 
@@ -46,3 +48,7 @@ components:
     ## 30:     Total.SAPT2 6.0572497 3.86521220  -4.94364387 19.91168435
     ## 31:   Total.SAPT2.3 6.7311581 3.89685938  -5.36305427 21.52013628
     ##              EnComp       MAE         SD          Min         Max
+
+As you can see, there are some large deviations for Dispersion and
+Electrostatics. For the minor terms, Disp20, Elst10.r, Exch.Ind30.r,
+Exch10, Exch10.S.2., and Ind30.r are also large.

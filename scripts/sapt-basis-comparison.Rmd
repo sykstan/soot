@@ -1,6 +1,7 @@
 ---
 title: "Soot Exploratory Analysis"
-output: html_document
+#output: html_document
+output: md_document
 ---
 
 ```{r setup, include=FALSE}
