@@ -15,6 +15,11 @@ setnames(s88_mp2.dt, c("basis", "System","Suite"),c("bs", "sys","set"))
 
 setnames(il174_sapt, c("size", "r", "cationtype", "anion", "conf","elst10","exch10","ind20","exchind20","hf2","hf3","tothf"))
 
+setnames(s22_sapt_avdz, c("System","Elst10.r","Exch10","Ind20.r","Exch.Ind20.r","delta.HF.r..2.","delta.HF.r..3.","Total.HF"),c("sys","elst10","exch10","ind20","exchind20","hf2","hf3","tothf"))
+setnames(s22_sapt_vdz,  c("System","Elst10.r","Exch10","Ind20.r","Exch.Ind20.r","delta.HF.r..2.","delta.HF.r..3.","Total.HF"),c("sys","elst10","exch10","ind20","exchind20","hf2","hf3","tothf"))
+setnames(s66_sapt_avdz, c("System","Elst10.r","Exch10","Ind20.r","Exch.Ind20.r","delta.HF.r..2.","delta.HF.r..3.","Total.HF"),c("sys","elst10","exch10","ind20","exchind20","hf2","hf3","tothf"))
+setnames(s66_sapt_vdz,  c("System","Elst10.r","Exch10","Ind20.r","Exch.Ind20.r","delta.HF.r..2.","delta.HF.r..3.","Total.HF"),c("sys","elst10","exch10","ind20","exchind20","hf2","hf3","tothf"))
+  
 # tothf = elst10 + exch10 + ind20 + exchind20 + hf2 (delta E_HF^(2)) 
 # il174_sapt[, tothf - elst10 - exch10 - ind20 - exchind20 - hf2]
 

@@ -1,7 +1,7 @@
 ---
 title: "Soot Exploratory Analysis"
-#output: html_document
-output: md_document
+output: html_document
+#output: md_document
 ---
 
 ```{r setup, include=FALSE}
@@ -35,6 +35,28 @@ require(tidyr)
 
 <!-- Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot. -->
 
+## Datasets 
+Before we try and get into the analysis, let's just be clear about what data we have. The three main datasets are S22, S66, and ILs. I hesitate to say IL174 because we actually have 191 systems, of which only 174 have CCSD(T)/CBS results, and 182 have SAPT2+3/aug-cc-pVDZ results, and the cc-pVDZ are currently running at the time of writing (59 successful, 106 running, and 26 in queue). So you get an idea of how complicated things can be. This is as much for my sake as for the reader's. 
+
+So, here are the results that we have, and their sources, and the files I read them from.
+
+ * CCSD(T)/CBS
+    + S88 -- `S22_S66_MP2.xlsx`, from Santiago and Jason(?)
+    + IL -- `jason-CBS.csv`, which is originally from `jason_mp2_il1P.xlsx`, sheet `CCSDT_cp`
+ * MP2/(aug)-cc-pVXZ
+    + S88 -- `S22_S66_MP2.xlsx`, run by Santiago
+    + IL -- `jason_mp2_il1P.xlsx`, by Jason
+ * SAPT2+3/aug-cc-pVDZ
+    + S88 -- `S22_aDZ_sapt23_allEn.edat`, `S66_aDZ_sapt23_allEn.edat` 
+    + IL -- `il_aDZ_sapt2.edat`
+ * SAPT2+3/cc-pVDZ
+    + S88 -- `S22_DZ_sapt23_allEn.edat`, `S66_DZ_sapt23_allEn.edat`
+    + IL -- currently running
+
+Now note that a lot of the complications arise from the numerous components in SAPT2+3. Right now there are also files like `S22_aDZ_sapt2.edat`, which have less columns, etc. I'm thinking of simplifying it down to one file per method/basis set, and for SAPT extract the relevant columns. 
+
+
+
 ### Comparison of SAPT2+3 components between basis sets
 
 ```{r, include=FALSE}
@@ -45,6 +67,7 @@ s88_long_allsapt <- gather(s88_allsapt.dt, EnComp, En, Electrostatics:Total.SAPT
 s88_long_allsapt[, basisDiff := VDZ - aVDZ]
 ```
 
+Now to give you a sense of how many components there can be in a full SAPT2+3 calculation (there are 34 columns)
 Here is the comparison between cc-pVDZ and aug-cc-pVDZ for SAPT2+3 components:
 ```{r, echo=FALSE}
 s88_long_allsapt[, as.list(nomed.stats(basisDiff)), by = .(EnComp)]
@@ -52,4 +75,9 @@ s88_long_allsapt[, as.list(nomed.stats(basisDiff)), by = .(EnComp)]
 
 As you can see, there are some large deviations for Dispersion and Electrostatics. For the minor terms, Disp20, Elst10.r, Exch.Ind30.r, Exch10, Exch10.S.2., and Ind30.r are also large. 
 
+
+### Comparison between SAPT2 and CCSD(T): correlation energy
+```{r}
+all_both.dt[, as.list(basic.stats(SAPT2 - SAPT.HF - corrEn)), by = .(Suite)]
+```
 

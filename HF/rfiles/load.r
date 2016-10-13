@@ -15,20 +15,20 @@ require(tidyr)
 #path = "/Users/zoz/Google Drive"  # HOME PC 
 path  = "/Users/zoes/GoogleDrive" # WORK MAC
 
-s22 <- read.xlsx(file = paste(path,"/Shared-w_-Me/Zoe-Sam/soot/HF/soot.xlsx",sep='')
+s22 <- read.xlsx(file = paste(path,"/Shared-w_-Me/Zoe-Sam/soot/HF/data/soot.xlsx",sep='')
                  , sheetName = "S22", header = TRUE) %>%
   data.table()
 
-s66 <- read.xlsx(file = paste(path,"/Shared-w_-Me/Zoe-Sam/soot/HF/soot.xlsx",sep='')
+s66 <- read.xlsx(file = paste(path,"/Shared-w_-Me/Zoe-Sam/soot/HF/data/soot.xlsx",sep='')
                  , sheetName = "S66", header = TRUE) %>%
   data.table()
 
 
-il2ip <- read.xlsx(file = paste(path,"/Shared-w_-Me/Zoe-Sam/soot/HF/orig-il-int.xlsx",sep='')
+il2ip <- read.xlsx(file = paste(path,"/Shared-w_-Me/Zoe-Sam/soot/HF/data/orig-il-int.xlsx",sep='')
                  , sheetName = "Sheet1", header = TRUE) %>%
     data.table()
 
-il174 <- read.xlsx(file = paste(path,"/Shared-w_-Me/Zoe-Sam/soot/HF/il174.xlsx",sep='')
+il174 <- read.xlsx(file = paste(path,"/Shared-w_-Me/Zoe-Sam/soot/HF/data/il174.xlsx",sep='')
                 , sheetName = "Sheet1", header = TRUE) %>%
     data.table()
 
@@ -36,73 +36,24 @@ il174_sapt <- read.table(file = paste(path,"/Shared-w_-Me/Zoe-Sam/soot/data/il_a
                     sep='|', strip=TRUE, header = TRUE) %>%
     data.table()
 
+s22_sapt_vdz <- read.table(file = paste(path,"/Shared-w_-Me/Zoe-Sam/soot/data/S22_DZ_sapt23_allEn.edat",sep=""),
+                         sep='|', strip=TRUE, header = TRUE) %>%
+  data.table()
+
+s22_sapt_avdz <- read.table(file = paste(path,"/Shared-w_-Me/Zoe-Sam/soot/data/S22_aDZ_sapt23_allEn.edat",sep=""),
+                          sep='|', strip=TRUE, header = TRUE) %>%
+  data.table()
+
+s66_sapt_vdz <- read.table(file = paste(path,"/Shared-w_-Me/Zoe-Sam/soot/data/S66_DZ_sapt23_allEn.edat",sep=""),
+                           sep='|', strip=TRUE, header = TRUE) %>%
+  data.table()
+
+s66_sapt_avdz <- read.table(file = paste(path,"/Shared-w_-Me/Zoe-Sam/soot/data/S66_aDZ_sapt23_allEn.edat",sep=""),
+                            sep='|', strip=TRUE, header = TRUE) %>%
+  data.table()
+
+# FROM SAM
 load(file = paste(path, "/Shared-w_-Me/Zoe-Sam/soot/data/cleaned.data",sep = ''))
 
-remove(path)
-
-#=====================================================================================#
-
-# ASSIGN NAMES TO COLUMNS
-
-setnames(s22, c("sys", "vdz", "vtz", "vqz", "avdz","avtz","avqz"))
-
-setnames(s66, c("sys", "vdz", "vtz", "vqz", "avdz","avtz","avqz"))
-
-setnames(il174, c("sys", "vdz", "vtz", "vqz", "avdz","avtz","avqz"))
-
-setnames(il174_sapt, c("size", "r", "cationtype", "anion", "conf","elst10","exch10","ind20","exchind20","hf2","hf3","tothf"))
-
-# tothf = elst10 + exch10 + ind20 + exchind20 + hf2 (delta E_HF^(2)) 
-# il174_sapt[, tothf - elst10 - exch10 - ind20 - exchind20 - hf2]
-
-#=====================================================================================#
-
-# ADD NEW COLUMNS // REMOVE COMLUMNS // COMBINE D.FRAMES
-
-s22$set      <- "s22"   # Use the same value (0) for all rows
-s66$set      <- "s66"
-il174$set    <- "il174"
-il174_sapt$cation    <- paste("c",il174_sapt$r,"m", il174_sapt$cationtype, sep = "")
-
-# COMBINE DATAFRAMES VERTICALLY
-sets <- rbind(s22, s66) 
-
-remove(s22, s66)
-
-# SPLIT COLUMNS
-il174 <- separate(data=il174, col=sys, into=c("cation","anion","conf"),sep="-", extra="drop")
-
-#=====================================================================================#
-
-# HF SCALING ON TESTS SETS // ERRORS
-
-sets$sc_vdz  <- (sets$vdz/2) * 0.875 + -10.9 #+ 13.2
-
-sets$sc_vtz  <- (sets$vtz/2) * 0.928 + -12.5 #+ 13.2
-
-
-sets$vdz_err <- sets$avqz/2 - sets$sc_vdz
-
-sets$vtz_err <- sets$avqz/2 - sets$sc_vtz
-
-#=====================================================================================#
-
-#ADD ACCQ TO SAPT TABLE
-
-setkey(il174, cation, anion, conf)
-setkey(il174_sapt, cation, anion, conf)
-
-#merge(il174_sapt, il174[, c("cation", "anion", "conf", "avqz")], by = c("cation", "anion", "conf"))
-il174_sapt <- il174_sapt[il174[, c("cation", "anion", "conf", "avdz","avqz"), with = FALSE]]
-
-#=====================================================================================#
-
-df <- data.frame(il174_sapt$avqz - il174_sapt$avdz, il174_sapt$avqz - il174_sapt$tothf)
-
-setnames(df, c("avqz - avdz","avqz - SAPT0HF"))
-
-hf_diff   = il174_sapt$avqz - il174_sapt$avdz
-sapt_diff = il174_sapt$avqz - il174_sapt$tothf
-
-
+remove(path, all_both.dt, all_mp2.dt, il_mp2.dt)
 

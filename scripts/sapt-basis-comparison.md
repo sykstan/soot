@@ -10,6 +10,26 @@
 <!-- plot(pressure) -->
 <!-- ``` -->
 <!-- Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot. -->
+Datasets
+--------
+
+Before we try and get into the analysis, let's just be clear about what
+data we have. The three main datasets are S22, S66, and ILs. I hesitate
+to say IL174 because we actually have 191 systems, of which only 174
+have CCSD(T)/CBS results, and 182 have SAPT2+3/aug-cc-pVDZ results, and
+the cc-pVDZ are currently running at the time of writing (59 successful,
+106 running, and 26 in queue). So you get an idea of how complicated
+things can be. This is as much for my sake as for the reader's.
+
+So, here are the results that we have, and their sources, and the files
+I read them from.
+
+### CCSD(T)/CBS
+
+-   S88 -- S22\_S66\_MP2.xlsx, from Santiago and Jason(?)
+-   IL -- jason-CBS.csv, which is originally from jason\_mp2\_il1P.xlsx,
+    sheet CCSDT\_cp
+
 ### Comparison of SAPT2+3 components between basis sets
 
 Here is the comparison between cc-pVDZ and aug-cc-pVDZ for SAPT2+3

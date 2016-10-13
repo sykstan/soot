@@ -131,9 +131,36 @@ $(document).ready(function () {
 <!-- plot(pressure) -->
 <!-- ``` -->
 <!-- Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot. -->
+<div id="datasets" class="section level2">
+<h2>Datasets</h2>
+<p>Before we try and get into the analysis, let’s just be clear about what data we have. The three main datasets are S22, S66, and ILs. I hesitate to say IL174 because we actually have 191 systems, of which only 174 have CCSD(T)/CBS results, and 182 have SAPT2+3/aug-cc-pVDZ results, and the cc-pVDZ are currently running at the time of writing (59 successful, 106 running, and 26 in queue). So you get an idea of how complicated things can be. This is as much for my sake as for the reader’s.</p>
+<p>So, here are the results that we have, and their sources, and the files I read them from.</p>
+<ul>
+<li>CCSD(T)/CBS
+<ul>
+<li>S88 – <code>S22_S66_MP2.xlsx</code>, from Santiago and Jason(?)</li>
+<li>IL – <code>jason-CBS.csv</code>, which is originally from <code>jason_mp2_il1P.xlsx</code>, sheet <code>CCSDT_cp</code></li>
+</ul></li>
+<li>MP2/(aug)-cc-pVXZ
+<ul>
+<li>S88 – <code>S22_S66_MP2.xlsx</code>, run by Santiago</li>
+<li>IL – <code>jason_mp2_il1P.xlsx</code>, by Jason</li>
+</ul></li>
+<li>SAPT2+3/aug-cc-pVDZ
+<ul>
+<li>S88 – <code>S22_aDZ_sapt23_allEn.edat</code>, <code>S66_aDZ_sapt23_allEn.edat</code></li>
+<li>IL – <code>il_aDZ_sapt2.edat</code></li>
+</ul></li>
+<li>SAPT2+3/cc-pVDZ
+<ul>
+<li>S88 – <code>S22_DZ_sapt23_allEn.edat</code>, <code>S66_DZ_sapt23_allEn.edat</code></li>
+<li>IL – currently running</li>
+</ul></li>
+</ul>
+<p>Now note that a lot of the complications arise from the numerous components in SAPT2+3. Right now there are also files like <code>S22_aDZ_sapt2.edat</code>, which have less columns, etc. I’m thinking of simplifying it down to one file per method/basis set, and for SAPT extract the relevant columns.</p>
 <div id="comparison-of-sapt23-components-between-basis-sets" class="section level3">
 <h3>Comparison of SAPT2+3 components between basis sets</h3>
-<p>Here is the comparison between cc-pVDZ and aug-cc-pVDZ for SAPT2+3 components:</p>
+<p>Now to give you a sense of how many components there can be in a full SAPT2+3 calculation (there are 34 columns) Here is the comparison between cc-pVDZ and aug-cc-pVDZ for SAPT2+3 components:</p>
 <pre><code>##              EnComp       MAE         SD          Min         Max
 ##  1:  delta.HF.r..2. 0.2521400 0.36582153  -1.30390372  1.51144640
 ##  2:  delta.HF.r..3. 0.2189818 0.35092612  -0.30092596  2.27676922
@@ -168,6 +195,15 @@ $(document).ready(function () {
 ## 31:   Total.SAPT2.3 6.7311581 3.89685938  -5.36305427 21.52013628
 ##              EnComp       MAE         SD          Min         Max</code></pre>
 <p>As you can see, there are some large deviations for Dispersion and Electrostatics. For the minor terms, Disp20, Elst10.r, Exch.Ind30.r, Exch10, Exch10.S.2., and Ind30.r are also large.</p>
+</div>
+<div id="comparison-between-sapt2-and-ccsdt-correlation-energy" class="section level3">
+<h3>Comparison between SAPT2 and CCSD(T): correlation energy</h3>
+<pre class="r"><code>all_both.dt[, as.list(basic.stats(SAPT2 - SAPT.HF - corrEn)), by = .(Suite)]</code></pre>
+<pre><code>##    Suite      MAE        Med       SD       Min      Max
+## 1:   S22 2.703880 -0.3371762 3.828277 -8.632357 6.723696
+## 2:   S66 2.384773  1.0244872 2.990777 -6.762034 6.692659
+## 3:    IL 2.862872  1.6302926 3.165817 -7.028825 5.634410</code></pre>
+</div>
 </div>
 
 

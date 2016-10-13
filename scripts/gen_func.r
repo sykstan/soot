@@ -38,20 +38,20 @@ mae <- function(x) {
 basic.stats <- function(x, iden = NULL) {
     
     if (missing(iden)) {
-        a = c(mae = mae(x)
-                 , med = median(x, na.rm = TRUE)
-                 , sd = sd(x, na.rm = TRUE),
-                 min = min(x, na.rm = TRUE)
-                 , max = max(x, na.rm = TRUE))
+        a = c(MAE = mae(x)
+                 , Med = median(x, na.rm = TRUE)
+                 , SD = sd(x, na.rm = TRUE),
+                 Min = min(x, na.rm = TRUE)
+                 , Max = max(x, na.rm = TRUE))
     } else {
         iden = as.list(iden)
-        a = c(mae = mae(x)
-                 , med = median(x, na.rm = TRUE)
-                 , sd = sd(x, na.rm = TRUE)
-                 , min = min(x, na.rm = TRUE)
-                 , max = max(x, na.rm = TRUE)
-                 , min.name = iden[which.min(x)]
-                 , max.name = iden[which.max(x)])
+        a = c(MAE = mae(x)
+                 , Med = median(x, na.rm = TRUE)
+                 , SD = sd(x, na.rm = TRUE)
+                 , Min = min(x, na.rm = TRUE)
+                 , Max = max(x, na.rm = TRUE)
+                 , Min.Name = iden[which.min(x)]
+                 , Max.Name = iden[which.max(x)])
     }
     #return(as.list(a))
     return(a)
